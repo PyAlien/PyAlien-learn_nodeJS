@@ -224,3 +224,141 @@ console.log(eventInGame);
     8: 2024-08-23T03:30:00-12:00
     10: 2024-08-23T14:30:00-01:00
  */
+
+// Багфикс
+
+const words: string[] = ['Солнце', 'Луна', 'Земля', 'Вода', 'Жизнь'];
+
+type DefaultSettings = {
+  lineNumber: number;
+  maxWordsPerLine: number;
+};
+
+const defaultSettings = {
+  lineNumber: 0,
+  maxWordsPerLine: 2,
+};
+
+function deepClone(obj: any): any {
+  if (obj === null || typeof obj !== 'object') return obj;
+
+  // Обработка специфичных типов
+  if (obj instanceof Date) return new Date(obj);
+  if (obj instanceof RegExp) return new RegExp(obj);
+  if (obj instanceof Map) return new Map([...obj]);
+  if (obj instanceof Set) return new Set([...obj]);
+
+  const clone: { [key: string]: any } = Array.isArray(obj) ? [] : {};
+
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      clone[key] = deepClone(obj[key]);
+    }
+  }
+
+  return clone;
+}
+
+for (let i = 1; i < 3; i++) {
+  console.log(`Запуск номер ${i}`);
+  // С помощью рекурсии создаем глубокую копию объекта
+  const settings: DefaultSettings = deepClone(defaultSettings);
+  // ПОВЕРХНОСТНЫЕ КОПИИ. Изменение вложенного объекта в копии затронет оригинал.
+  // метод копирует свойства из одного или нескольких источников в целевой объект
+  // const settings: DefaultSettings = Object.assign({}, defaultSettings);
+  // оператор распространения (...) копирует свойства из объекта defaultSettings в новый объект.
+  // const settings: DefaultSettings = { ...defaultSettings };
+
+  // Math.ceil - округление до ближайшего целого в большую сторону.
+  const linesCount: number = Math.ceil(words.length / settings.maxWordsPerLine);
+
+  console.log(`Будет выведено ${linesCount} строк(и)`);
+  for (settings.lineNumber; settings.lineNumber < linesCount; settings.lineNumber++) {
+    const start: number = settings.lineNumber * settings.maxWordsPerLine;
+    const end: number = start + settings.maxWordsPerLine;
+
+    const elements: string[] = words.slice(start, end);
+    console.log(`Строка ${settings.lineNumber + 1}:`, elements);
+  }
+
+  console.log();
+}
+
+// Сравнение объектов
+function areObjectsEqual(obj1: any, obj2: any): boolean {
+  // Если объекты одинаковые по ссылке, то они одинаковы
+  if (obj1 === obj2) return true;
+
+  // Если один из объектов null, а другой нет, они не одинаковы
+  if (obj1 === null || obj2 === null) return false;
+
+  // Если типы объектов разные
+  if (typeof obj1 !== 'object' || typeof obj2 !== 'object') return false;
+
+  // Получаем массив всех ключей объектов
+  const keys1 = Object.keys(obj1);
+  const keys2 = Object.keys(obj2);
+
+  // Если количество ключей разное, объекты не одинаковы
+  if (keys1.length !== keys2.length) return false;
+
+  // Рекурсивно сравниваем каждый ключ и его значения
+  for (const key of keys1) {
+    // Если ключи не совпадают или значения не равны, объекты не одинаковы
+    if (!keys2.includes(key) || !areObjectsEqual(obj1[key], obj2[key])) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+const testCases = [
+  { object1: { name: 'n', age: 10 }, object2: { age: 10, name: 'n' }, expected: true },
+  {
+    object1: { name: 'n', size: 3 },
+    object2: { size: 3 },
+    expected: false,
+  },
+  {
+    object1: {},
+    object2: {},
+    expected: true,
+  },
+  {
+    object1: { isAdult: true, email: 'example@mail.com', page: 100 },
+    object2: { page: 100, isAdult: true, email: 'example@mail.com' },
+    expected: true,
+  },
+  {
+    object1: { checked: 1 },
+    object2: { checked: true },
+    expected: false,
+  },
+  { object1: { checked: true }, object2: { checked: true, marked: true }, expected: false },
+  {
+    object1: { checked: true, marked: true },
+    object2: { checked: true },
+    expected: false,
+  },
+  {
+    object1: (function () {
+      const obj1 = {};
+      const obj2: { [key: string]: any } = obj1;
+      obj2.age = 100;
+      return obj1;
+    })(),
+    object2: (function () {
+      const obj1 = {};
+      const obj2: { [key: string]: any } = obj1;
+      obj2.age = 100;
+      return obj2;
+    })(),
+    expected: true,
+  },
+];
+
+testCases.forEach(({ object1, object2, expected }, index) => {
+  const result = areObjectsEqual(object1, object2);
+  console.log(`Test case ${index + 1}: ${result === expected ? 'Passed' : 'Failed'}`);
+});
