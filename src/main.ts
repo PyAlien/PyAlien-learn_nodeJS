@@ -421,3 +421,31 @@ const a = ('' || null || 0 || -0 || undefined) ?? (null || 0) ?? '' ?? null;
 // undefined ?? 0 ?? '' ?? null -> 0
 // Сравнивая с оператором ?? первые два значения 0 является подходящим, остальные проверки пропускаются
 console.log(a);
+// Функции
+// Что выведет код
+const sayHi = (name = 'Безымянный') => console.log(`Hi, ${name}`);
+
+sayHi(); // Hi, Безымянный
+sayHi('Ivan'); // Hi, Ivan
+sayHi(undefined); // Hi, Безымянный
+
+// Разделение цифр и букв
+function separateLettersAndDigits(input: string): { letters: string[]; digits: string[] } {
+  const letters: string[] = [];
+  const digits: string[] = [];
+  // Проходим по каждому символу в строке
+  for (let i = 0; i < input.length; i++) {
+    const char: number | string = input[i];
+    // Проверяем, является ли символ буквой
+    if (/[A-Za-z]/.test(char)) {
+      letters.push(char);
+      // Проверяем, является ли символ цифрой
+    } else if (/[0-9]/.test(char)) {
+      digits.push(char);
+    }
+  }
+  return { letters: letters, digits: digits };
+}
+
+const result = separateLettersAndDigits('klafhkjahf892734h2i5jhgk54gr298yf2h');
+console.log(result);
