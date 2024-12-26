@@ -362,3 +362,62 @@ testCases.forEach(({ object1, object2, expected }, index) => {
   const result = areObjectsEqual(object1, object2);
   console.log(`Test case ${index + 1}: ${result === expected ? 'Passed' : 'Failed'}`);
 });
+
+// Операторы слияния || и ??
+// 1. Тип с опциональным полем
+type Person = {
+  name: string;
+  age: number;
+  address?: string | null; // Опциональное поле
+};
+// 2. Тип без поля адреса
+const person1: Person = {
+  name: 'Иван',
+  age: 30,
+  // address отсутствует
+};
+// 3. Тип адрес явно установлен в null
+const person2: Person = {
+  name: 'Андрей',
+  age: 25,
+  address: null,
+};
+// 4. Тип адрес - пустая строка
+const person3: Person = {
+  name: 'Марина',
+  age: 40,
+  address: '',
+};
+// 4. Тип адрес - обычная строка
+const person4: Person = {
+  name: 'Диана',
+  age: 35,
+  address: 'ул. Тверская, д.8',
+};
+// Проверка
+const checkAddress = (person: Person) => {
+  // Используем оператор слияния ?? для проверки значений
+  const address = person.address ?? null;
+
+  if (address === null) {
+    console.log('не обнаружено');
+  } else if (address === '') {
+    console.log('пусто');
+  } else {
+    console.log(address);
+  }
+};
+
+// Результат
+checkAddress(person1);
+checkAddress(person2);
+checkAddress(person3);
+checkAddress(person4);
+
+// Что выведется
+const a = ('' || null || 0 || -0 || undefined) ?? (null || 0) ?? '' ?? null;
+// '' || null || 0 || -0 || undefined -> undefined
+// null || 0 -> 0
+// undefined ?? 0 ?? '' ?? null -> 0
+// Сравнивая с оператором ?? первые два значения 0 является подходящим, остальные проверки пропускаются
+console.log(a);
