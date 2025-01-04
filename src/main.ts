@@ -449,3 +449,272 @@ function separateLettersAndDigits(input: string): { letters: string[]; digits: s
 
 const result = separateLettersAndDigits('klafhkjahf892734h2i5jhgk54gr298yf2h');
 console.log(result);
+
+// Только короткие строки
+console.log('Только короткие строки');
+const filterShortStrings = (strings: string[], maxLength: number): string[] => {
+  const resFilt: string[] = [];
+  for (const str of strings) {
+    if (str.length < maxLength) {
+      resFilt.push(str);
+    }
+  }
+  return resFilt;
+};
+
+// Пример использования:
+const strings = ['apple', 'banana', 'kiwi', 'cherry', 'mango'];
+const maxLength = 6;
+
+const resFilt = filterShortStrings(strings, maxLength);
+console.log(resFilt); // Вывод: ["apple", "kiwi", "mango"]
+
+console.log('Только короткие строки + третий параметр');
+const filterStringsByLength = (strings: string[], length: number, comparisonType: 'greater' | 'less'): string[] => {
+  const resFilt2: string[] = [];
+  for (const str of strings) {
+    if ((comparisonType === 'less' && str.length < length) || (comparisonType === 'greater' && str.length > length)) {
+      resFilt2.push(str);
+    }
+  }
+  return resFilt2;
+};
+
+// Пример использования:
+const strings2 = ['apple', 'banana', 'kiwi', 'cherry', 'mango'];
+const length = 5;
+
+const lessResult = filterStringsByLength(strings2, length, 'less');
+console.log('Меньше:', lessResult); // Вывод: ["apple", "kiwi", "mango"]
+
+const greaterResult = filterStringsByLength(strings2, length, 'greater');
+console.log('Больше:', greaterResult); // Вывод: ["banana", "cherry"]
+
+console.log('Только короткие строки + опциональный третий параметр');
+const filterStringsByLengthOptional = (
+  strings: string[],
+  length: number,
+  comparisonType: 'greater' | 'less' = 'less',
+): string[] => {
+  const result: string[] = [];
+  for (const str of strings) {
+    if ((comparisonType === 'less' && str.length < length) || (comparisonType === 'greater' && str.length > length)) {
+      result.push(str);
+    }
+  }
+  return result;
+};
+
+// Пример использования:
+const strings3 = ['apple', 'banana', 'kiwi', 'cherry', 'mango'];
+const length3 = 5;
+
+// По умолчанию сравнение "меньше":
+const defaultComparison = filterStringsByLengthOptional(strings3, length3);
+console.log('По умолчанию (меньше):', defaultComparison);
+
+// Явное указание "меньше":
+const lessResult3 = filterStringsByLengthOptional(strings3, length3, 'less');
+console.log('Меньше:', lessResult);
+
+// Указание "больше":
+const greaterResult3 = filterStringsByLengthOptional(strings3, length3, 'greater');
+console.log('Больше:', greaterResult);
+
+// Наибольший целый делитель
+console.log('Наибольший целый делитель');
+const printGreatestDivisor = (numbers: number[]): void => {
+  const findGreatestDivisor = (num: number): number => {
+    for (let divisor = Math.floor(num / 2); divisor > 0; divisor--) {
+      if (num % divisor === 0) {
+        return divisor;
+      }
+    }
+    return 1; // Если делитель не найден, возвращается 1
+  };
+
+  for (const num of numbers) {
+    if (num <= 1) {
+      console.log(`Число ${num}: делитель отсутствует`);
+    } else {
+      console.log(`Число ${num}: наибольший делитель ${findGreatestDivisor(num)}`);
+    }
+  }
+};
+
+// Пример использования:
+const numbers = [15, 28, 7, 100, 1];
+printGreatestDivisor(numbers);
+
+// Сумма значений объекта
+console.log('');
+console.log('Сумма значений объекта');
+const sumObjectValues = (obj: Record<string, number>): number => {
+  let sum = 0;
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      sum += obj[key];
+    }
+  }
+  return sum;
+};
+
+// Пример использования
+const testObject = { a: 10, b: 20, c: 30 };
+console.log(sumObjectValues(testObject)); // 60
+
+// Сумма значений объекта неизвестного типа
+console.log('');
+console.log('Сумма значений объекта неизвестного типа');
+const sumNumericProperties = (obj: Record<string, unknown>): number => {
+  let sum = 0;
+
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key) && typeof obj[key] === 'number') {
+      sum += obj[key];
+    }
+  }
+
+  return sum;
+};
+
+// Пример использования
+const exampleObject = {
+  a: 10,
+  b: null,
+  c: 'hello',
+  d: undefined,
+  e: true,
+  f: 15,
+};
+
+console.log(sumNumericProperties(exampleObject)); // Вывод: 25
+
+// Возраст Стаса
+console.log('');
+console.log('Возраст Стаса');
+
+type Human = {
+  name: string;
+  age?: number | null; // Поле `age` может быть числом, `null`, или отсутствовать.
+};
+
+const findAgeByName = (array: Human[], targetName: string): string | number => {
+  // Ищем объект с именем `targetName`.
+  for (const human of array) {
+    if (human.name === targetName) {
+      // Если возраст отсутствует или равен null/undefined.
+      if (human.age == null) {
+        return 'Возраста нет';
+      }
+      // Возвращаем возраст, если он определен.
+      return human.age;
+    }
+  }
+
+  // Если объект не найден.
+  return 'Объект не найден';
+};
+
+// Пример использования:
+const people = [
+  { name: 'Anna', age: 25 },
+  { name: 'Stas', age: null },
+  { name: 'Igor', age: 30 },
+  { name: 'Stas', age: 35 },
+];
+
+console.log(findAgeByName(people, 'Stas')); // Вывод: Возраста нет (если нужен первый объект с именем "Stas")
+console.log(findAgeByName(people, 'Igor')); // Вывод: 30
+console.log(findAgeByName(people, 'Alex')); // Вывод: Объект не найден
+
+// Колбэк
+console.log('');
+console.log('Колбэк');
+
+type Callback = () => void;
+
+const executeWithRandomResult = (onSuccess: Callback, onFailure: Callback): void => {
+  const isSuccess = Math.random() >= 0.5; // Генерация случайного значения true/false
+  console.log(`Результат рандома: ${isSuccess ? 'успех' : 'неуспех'}`);
+  if (isSuccess) {
+    onSuccess();
+  } else {
+    onFailure();
+  }
+};
+
+// Пример использования:
+const handleSuccess = () => {
+  console.log('👍 Задача выполнена успешно!');
+};
+
+const handleFailure = () => {
+  console.log('👎 Задача завершилась неудачей.');
+};
+
+executeWithRandomResult(handleSuccess, handleFailure);
+
+// Билдер сообщений
+console.log('');
+console.log('Билдер сообщений');
+
+const sayBuilder = (greeting: string) => (name: string) => `${greeting}, ${name}!`;
+
+const sayGreeting = sayBuilder('Hi');
+const sayBye = sayBuilder('Bye');
+
+console.log(sayGreeting('Ruslan')); // Hi, Ruslan!
+console.log(sayGreeting('Maxim')); // Hi, Maxim!
+
+console.log(sayBye('Ruslan')); // Bye, Ruslan!
+console.log(sayBye('Maxim')); // Bye, Maxim!
+
+// Фиббоначи
+console.log('');
+console.log('Фиббоначи');
+
+const fibonacci = (n: number): number => {
+  if (n <= 0) return 0; // Базовый случай
+  if (n === 1) return 1; // Базовый случай
+  return fibonacci(n - 1) + fibonacci(n - 2); // Рекурсивный вызов для суммы двух предыдущих чисел
+};
+
+console.log(fibonacci(1)); // 1
+console.log(fibonacci(2)); // 1
+console.log(fibonacci(3)); // 2
+console.log(fibonacci(4)); // 3
+console.log(fibonacci(5)); // 5
+console.log(fibonacci(6)); // 8
+console.log(fibonacci(7)); // 13
+console.log(fibonacci(8)); // 21
+console.log(fibonacci(9)); // 34
+
+// Самопроверка
+console.log('');
+console.log('Самопроверка');
+
+// Функции для выполнения различных операций
+const multiply = (a: number, b: number): number => a * b;
+const add = (a: number, b: number): number => a + b;
+const subtract = (a: number, b: number): number => a - b;
+const divide = (a: number, b: number): number => (b !== 0 ? a / b : Infinity);
+
+// Матрица аргументов и ожидаемых результатов
+const testCasesControl: [number, number, Function, number][] = [
+  [1, 9, multiply, 9],
+  [2, 3, add, 5],
+  [5, 5, subtract, 0],
+  [8, 4, divide, 2],
+  [7, 3, multiply, 21],
+  [10, 0, divide, Infinity],
+];
+
+// Прогон тестов
+testCasesControl.forEach(([arg1, arg2, func, expected], index) => {
+  const resOp = func(arg1, arg2);
+  const isCorrect = resOp === expected;
+  console.log(
+    `Тест #${index + 1}: ${func.name}(${arg1}, ${arg2}) = ${resOp} | Ожидаемый результат: ${expected} | ${isCorrect ? 'Пройден' : 'Не пройден'}`,
+  );
+});
