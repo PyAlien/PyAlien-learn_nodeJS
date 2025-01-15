@@ -946,14 +946,35 @@
 // }
 
 // Поиск в массиве
-const people = [
-  { name: 'Alice', age: 5 },
-  { name: 'Bob', age: 12 },
-  { name: 'Charlie', age: 8 },
-  { name: 'David', age: 15 },
+// const people = [
+//   { name: 'Alice', age: 5 },
+//   { name: 'Bob', age: 12 },
+//   { name: 'Charlie', age: 8 },
+//   { name: 'David', age: 15 },
+// ];
+//
+// const result = people.find((person) => person.age > 10);
+//
+// console.log(result);
+// // Вывод: { name: 'Bob', age: 12 }
+
+// Умный поиск в массиве
+const storage = [
+  { age: 10, name: 'first' },
+  { age: 20, name: 'second' },
+  { age: 30, name: 'third' },
+  { age: 40, name: 'fourth' },
 ];
 
-const result = people.find((person) => person.age > 10);
+const smartSearch = (arr: any[], property: any, value: any) => {
+  return arr.find((item) => item[property] === value);
+};
 
-console.log(result);
-// Вывод: { name: 'Bob', age: 12 }
+const person1 = smartSearch(storage, 'age', 30);
+console.log(person1); // { age: 30, name: 'third' }
+
+const person2 = smartSearch(storage, 'age', 10);
+console.log(person2); // { age: 10, name: 'first' }
+
+const person3 = smartSearch(storage, 'name', 'second');
+console.log(person3); // { age: 20, name: 'second' }
