@@ -959,22 +959,31 @@
 // // Вывод: { name: 'Bob', age: 12 }
 
 // Умный поиск в массиве
-const storage = [
-  { age: 10, name: 'first' },
-  { age: 20, name: 'second' },
-  { age: 30, name: 'third' },
-  { age: 40, name: 'fourth' },
-];
+// const storage = [
+//   { age: 10, name: 'first' },
+//   { age: 20, name: 'second' },
+//   { age: 30, name: 'third' },
+//   { age: 40, name: 'fourth' },
+// ];
+//
+// const smartSearch = (arr: any[], property: any, value: any) => {
+//   return arr.find((item) => item[property] === value);
+// };
+//
+// const person1 = smartSearch(storage, 'age', 30);
+// console.log(person1); // { age: 30, name: 'third' }
+//
+// const person2 = smartSearch(storage, 'age', 10);
+// console.log(person2); // { age: 10, name: 'first' }
+//
+// const person3 = smartSearch(storage, 'name', 'second');
+// console.log(person3); // { age: 20, name: 'second' }
 
-const smartSearch = (arr: any[], property: any, value: any) => {
-  return arr.find((item) => item[property] === value);
-};
+// Рандомный фильтр
+// Создаем массив чисел от 1 до 10
+const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-const person1 = smartSearch(storage, 'age', 30);
-console.log(person1); // { age: 30, name: 'third' }
+// Фильтруем элементы случайным образом (например, с вероятностью 50%)
+const randomElements = arr.filter((arr) => Math.random() < 0.5);
 
-const person2 = smartSearch(storage, 'age', 10);
-console.log(person2); // { age: 10, name: 'first' }
-
-const person3 = smartSearch(storage, 'name', 'second');
-console.log(person3); // { age: 20, name: 'second' }
+console.log(randomElements); // [ 5, 8, 10 ]
