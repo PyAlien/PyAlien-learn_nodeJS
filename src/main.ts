@@ -944,3 +944,16 @@
 //
 //   console.log(words.join('\t'));
 // }
+
+// Поиск в массиве
+const people = [
+  { name: 'Alice', age: 5 },
+  { name: 'Bob', age: 12 },
+  { name: 'Charlie', age: 8 },
+  { name: 'David', age: 15 },
+];
+
+const result = people.find((person) => person.age > 10);
+
+console.log(result);
+// Вывод: { name: 'Bob', age: 12 }
