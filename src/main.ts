@@ -719,144 +719,228 @@
 //   );
 // });
 
-// Шифр
-console.log('');
-console.log('Шифр');
+// // Шифр
+// console.log('');
+// console.log('Шифр');
+//
+// // Создаем словарь соответствий между английским алфавитом и новым алфавитом
+// const createCipherMap = (original: string, cipher: string): Record<string, string> => {
+//   return cipher.split('').reduce(
+//     (map, char, i) => {
+//       map[char] = original[i];
+//       return map;
+//     },
+//     {} as Record<string, string>,
+//   );
+// };
+//
+// // Функция для расшифровки текста с использованием словаря
+// const decryptText = (encryptedText: string, cipherMap: Record<string, string>): string => {
+//   return encryptedText
+//     .split('')
+//     .map((char) => {
+//       const lowerChar = char.toLowerCase();
+//       const decodedChar = cipherMap[lowerChar];
+//       return decodedChar ? (char === lowerChar ? decodedChar : decodedChar.toUpperCase()) : char;
+//     })
+//     .join('');
+// };
+//
+// // Оригинальный алфавит и новый алфавит
+// const originalAlphabet = 'the quick brown fox jumps over the lazy dog'.replace(/\s+/g, '');
+// const cipherAlphabet = 'sgd pthbj aqnvm enw itlor nudq sgd kzyx cnf'.replace(/\s+/g, '');
+//
+// // Фраза для расшифровки
+// const encryptedPhrase = 'xnt gzud lzjhmf fqdzs oqnfqdrr hm kdzqmhmf izuzrbqhos. bnmfqzsr!';
+//
+// // Создаем словарь
+// const cipherMap = createCipherMap(originalAlphabet, cipherAlphabet);
+// console.log(cipherMap);
+// // Расшифровываем текст
+// const decryptedText = decryptText(encryptedPhrase, cipherMap);
+//
+// console.log('Расшифрованный текст:', decryptedText);
 
-// Создаем словарь соответствий между английским алфавитом и новым алфавитом
-const createCipherMap = (original: string, cipher: string): Record<string, string> => {
-  return original.split('').reduce(
-    (map, char, i) => {
-      map[char] = cipher[i];
-      return map;
-    },
-    {} as Record<string, string>,
-  );
-};
+// // Калькулятор времени скачивания файла
+// console.log('');
+// console.log('Калькулятор времени скачивания файла');
+//
+// interface File {
+//   name: string;
+//   size: number;
+//   units: 'b' | 'kb' | 'mb' | 'gb';
+// }
+//
+// interface Speed {
+//   speedPerSecond: number;
+//   units: 'b' | 'kb' | 'mb' | 'gb';
+// }
+//
+// // Конвертация единиц в байты
+// const unitsToBytes: Record<string, number> = {
+//   b: 1,
+//   kb: 10 ** 3,
+//   mb: 10 ** 6,
+//   gb: 10 ** 9,
+// };
+//
+// const convertToBytes = (size: number, unit: string): number => size * unitsToBytes[unit];
+//
+// // Расчет времени скачивания в секундах
+// const calculateDownloadTimeInSeconds = (fileBytes: number, speedBytesPerSecond: number): number => {
+//   return Math.ceil(fileBytes / speedBytesPerSecond);
+// };
+//
+// // Преобразование секунд в дни, часы, минуты и секунды
+// const formatTime = (totalSeconds: number): string => {
+//   const days = Math.floor(totalSeconds / (24 * 3600));
+//   totalSeconds %= 24 * 3600;
+//   const hours = Math.floor(totalSeconds / 3600);
+//   totalSeconds %= 3600;
+//   const minutes = Math.floor(totalSeconds / 60);
+//   const seconds = totalSeconds % 60;
+//
+//   return `Дни: ${days}. Часы: ${hours}. Минуты: ${minutes}. Секунды: ${seconds}.`;
+// };
+//
+// // Основная функция для расчета времени загрузки
+// const downloadTimeCalculator = (file: File, speed: Speed): string => {
+//   const fileBytes = convertToBytes(file.size, file.units);
+//   const speedBytesPerSecond = convertToBytes(speed.speedPerSecond, speed.units);
+//   const totalSeconds = calculateDownloadTimeInSeconds(fileBytes, speedBytesPerSecond);
+//   return formatTime(totalSeconds);
+// };
+//
+// /**
+//  * Конкретные тестовые кейсы
+//  * Их редактировать запрещено!
+//  * Дебажить, конечно же, можно.
+//  */
+// const testCases = [
+//   [
+//     { name: 'День рождения.mp4', size: 1, units: 'gb' },
+//     { speedPerSecond: 100, units: 'kb' },
+//     'Дни: 0. Часы: 2. Минуты: 46. Секунды: 40.',
+//   ],
+//   [
+//     { name: 'Отчёт.docx', size: 1023443, units: 'kb' },
+//     { speedPerSecond: 1, units: 'mb' },
+//     'Дни: 0. Часы: 0. Минуты: 17. Секунды: 4.',
+//   ],
+//   [
+//     { name: 'Голосовое сообщение.mp3', size: 1, units: 'b' },
+//     { speedPerSecond: 1000, units: 'gb' },
+//     'Дни: 0. Часы: 0. Минуты: 0. Секунды: 1.',
+//   ],
+//   [
+//     { name: 'Корги.png', size: 100.45, units: 'mb' },
+//     { speedPerSecond: 1162.6, units: 'b' },
+//     'Дни: 1. Часы: 0. Минуты: 0. Секунды: 2.',
+//   ],
+//   [
+//     { name: 'GTA V', size: 100.45, units: 'gb' },
+//     { speedPerSecond: 1, units: 'b' },
+//     'Дни: 1162615. Часы: 17. Минуты: 46. Секунды: 40.',
+//   ],
+// ] as const;
+//
+// /**
+//  * Цикл для проверки каждого тест-кейса по очереди
+//  */
+// for (const testCase of testCases) {
+//   const file = testCase[0];
+//   const speed = testCase[1];
+//   const expected = testCase[2];
+//
+//   const result = downloadTimeCalculator(file, speed);
+//
+//   if (result === expected) {
+//     console.log(`Расчеты верны для файла "${file.name}"!`);
+//   } else {
+//     console.log(`Расчеты НЕВЕРНЫ для файла "${file.name}"!`);
+//   }
+// }
 
-// Функция для расшифровки текста с использованием словаря
-const decryptText = (encryptedText: string, cipherMap: Record<string, string>): string => {
-  return encryptedText
-    .split('')
-    .map((char) => {
-      const lowerChar = char.toLowerCase();
-      const decodedChar = cipherMap[lowerChar];
-      return decodedChar ? (char === lowerChar ? decodedChar : decodedChar.toUpperCase()) : char;
-    })
-    .join('');
-};
+// // Рекурсивное сравнение объектов
+// console.log('');
+// console.log('Рекурсивное сравнение объектов');
 
-// Оригинальный алфавит и новый алфавит
-const originalAlphabet = 'the quick brown fox jumps over the lazy dog'.replace(/\s+/g, '');
-const cipherAlphabet = 'sgd pthbj aqnvm enw itlor nudq sgd kzyx cnf'.replace(/\s+/g, '');
-
-// Фраза для расшифровки
-const encryptedPhrase = 'xnt gzud lzjhmf fqdzs oqnfqdrr hm kdzqmhmf izuzrbqhos. bnmfqzsr!';
-
-// Создаем словарь
-const cipherMap = createCipherMap(originalAlphabet, cipherAlphabet);
-console.log(cipherMap);
-// Расшифровываем текст
-const decryptedText = decryptText(encryptedPhrase, cipherMap);
-
-console.log('Расшифрованный текст:', decryptedText);
-
-// Калькулятор времени скачивания файла
-console.log('');
-console.log('Калькулятор времени скачивания файла');
-
-interface File {
-  name: string;
-  size: number;
-  units: 'b' | 'kb' | 'mb' | 'gb';
-}
-
-interface Speed {
-  speedPerSecond: number;
-  units: 'b' | 'kb' | 'mb' | 'gb';
-}
-
-// Конвертация единиц в байты
-const unitsToBytes: Record<string, number> = {
-  b: 1,
-  kb: 10 ** 3,
-  mb: 10 ** 6,
-  gb: 10 ** 9,
-};
-
-const convertToBytes = (size: number, unit: string): number => size * unitsToBytes[unit];
-
-// Расчет времени скачивания в секундах
-const calculateDownloadTimeInSeconds = (fileBytes: number, speedBytesPerSecond: number): number => {
-  return Math.ceil(fileBytes / speedBytesPerSecond);
-};
-
-// Преобразование секунд в дни, часы, минуты и секунды
-const formatTime = (totalSeconds: number): string => {
-  const days = Math.floor(totalSeconds / (24 * 3600));
-  totalSeconds %= 24 * 3600;
-  const hours = Math.floor(totalSeconds / 3600);
-  totalSeconds %= 3600;
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
-
-  return `Дни: ${days}. Часы: ${hours}. Минуты: ${minutes}. Секунды: ${seconds}.`;
-};
-
-// Основная функция для расчета времени загрузки
-const downloadTimeCalculator = (file: File, speed: Speed): string => {
-  const fileBytes = convertToBytes(file.size, file.units);
-  const speedBytesPerSecond = convertToBytes(speed.speedPerSecond, speed.units);
-  const totalSeconds = calculateDownloadTimeInSeconds(fileBytes, speedBytesPerSecond);
-  return formatTime(totalSeconds);
-};
-
-/**
- * Конкретные тестовые кейсы
- * Их редактировать запрещено!
- * Дебажить, конечно же, можно.
- */
-const testCases = [
-  [
-    { name: 'День рождения.mp4', size: 1, units: 'gb' },
-    { speedPerSecond: 100, units: 'kb' },
-    'Дни: 0. Часы: 2. Минуты: 46. Секунды: 40.',
-  ],
-  [
-    { name: 'Отчёт.docx', size: 1023443, units: 'kb' },
-    { speedPerSecond: 1, units: 'mb' },
-    'Дни: 0. Часы: 0. Минуты: 17. Секунды: 4.',
-  ],
-  [
-    { name: 'Голосовое сообщение.mp3', size: 1, units: 'b' },
-    { speedPerSecond: 1000, units: 'gb' },
-    'Дни: 0. Часы: 0. Минуты: 0. Секунды: 1.',
-  ],
-  [
-    { name: 'Корги.png', size: 100.45, units: 'mb' },
-    { speedPerSecond: 1162.6, units: 'b' },
-    'Дни: 1. Часы: 0. Минуты: 0. Секунды: 2.',
-  ],
-  [
-    { name: 'GTA V', size: 100.45, units: 'gb' },
-    { speedPerSecond: 1, units: 'b' },
-    'Дни: 1162615. Часы: 17. Минуты: 46. Секунды: 40.',
-  ],
-] as const;
-
-/**
- * Цикл для проверки каждого тест-кейса по очереди
- */
-for (const testCase of testCases) {
-  const file = testCase[0];
-  const speed = testCase[1];
-  const expected = testCase[2];
-
-  const result = downloadTimeCalculator(file, speed);
-
-  if (result === expected) {
-    console.log(`Расчеты верны для файла "${file.name}"!`);
-  } else {
-    console.log(`Расчеты НЕВЕРНЫ для файла "${file.name}"!`);
-  }
-}
+// const compareObjectsRecursive = (obj1: any, obj2: any): boolean => {
+//   // Если объекты имеют одинаковую ссылку, они равны
+//   if (obj1 === obj2) return true;
+//
+//   // Если один из объектов null/undefined или их типы не совпадают
+//   if (obj1 === null || obj2 === null || typeof obj1 !== typeof obj2) return false;
+//
+//   // Если объекты — примитивы, то их значения должны совпадать
+//   if (typeof obj1 !== 'object') return obj1 === obj2;
+//
+//   // Если объекты — массивы
+//   if (Array.isArray(obj1) && Array.isArray(obj2)) {
+//     // Длина массивов должна совпадать
+//     if (obj1.length !== obj2.length) return false;
+//
+//     // Сравниваем каждый элемент массива
+//     return obj1.every((value, index) => compareObjectsRecursive(value, obj2[index]));
+//   }
+//
+//   // Если только один из объектов является массивом
+//   if (Array.isArray(obj1) || Array.isArray(obj2)) return false;
+//
+//   // Если объекты — обычные объекты
+//   const obj1Keys = Object.keys(obj1);
+//   const obj2Keys = Object.keys(obj2);
+//
+//   // Количество ключей должно совпадать
+//   if (obj1Keys.length !== obj2Keys.length) return false;
+//
+//   // Все ключи и их значения должны быть равны
+//   return obj1Keys.every((key) => compareObjectsRecursive(obj1[key], obj2[key]));
+// };
+//
+// // Тестовые кейсы
+// const object1 = { a: 10, b: { c: { d: { e: [1, true, { g: { a: [1] } }] } } } };
+//
+// const testCases: [any, any, boolean][] = [
+//   // Примитивы
+//   [1, 0, false],
+//   [false, false, true],
+//   [1, true, false],
+//   [null, null, true],
+//   [undefined, undefined, true],
+//   [undefined, null, false],
+//   ['', '', true],
+//   ['abc', 'ABC', false],
+//
+//   // Массивы
+//   [[1, 2, 3], [1, 2, 3], true],
+//   [[3, 2, 1], [1, 2, 3], false],
+//   [[], [], true],
+//   [[[[1, [2, [3]]]]], [[[1, [2, [3]]]]], true],
+//   [[[[false, [], [], [[[true]]]]]], [[[false, [], [], [[[true]]]]]], true],
+//   [[], [undefined], false],
+//
+//   // Объекты
+//   [{}, {}, true],
+//   [{ a: 10, b: '' }, { a: 10, b: '' }, true],
+//   [{ a: [2, 1] }, { a: [1, 2] }, false],
+//   [object1, object1, true],
+//   [{ x: [{ x: [{ x: [{ x: 'X' }] }] }] }, { x: [{ x: [{ x: [{ x: 'X' }] }] }] }, true],
+//   [{ x: [{ x: [{ x: [{ x: 'X' }] }] }] }, { x: [{ x: [{ x: [{ x: 'x' }] }] }] }, false],
+// ];
+//
+// // Тестируем функцию
+// for (const test of testCases) {
+//   const [obj1, obj2, expected] = test;
+//   const result = compareObjectsRecursive(obj1, obj2);
+//
+//   const words = [
+//     result === expected ? `Корректно (${result})` : `ОШИБКА - (Ожидалось ${expected}, фактически - ${result})`,
+//     '-',
+//     JSON.stringify(obj1),
+//     '|',
+//     JSON.stringify(obj2),
+//   ];
+//
+//   console.log(words.join('\t'));
+// }
