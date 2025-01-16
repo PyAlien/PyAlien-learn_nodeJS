@@ -1017,21 +1017,21 @@
 */
 
 // Обогатите список
-const storage = [
-  { age: 10, name: 'first' },
-  { age: 20, name: 'second' },
-  { age: 30, name: 'third' },
-  { age: 40, name: 'fourth' },
-];
-
-// Используем map, чтобы изменить порядок свойств и добавить новое свойство
-const storage2 = storage.map((item) => ({
-  age: item.name,
-  name: item.age,
-  reversed: true,
-}));
-
-console.log(storage2);
+// const storage = [
+//   { age: 10, name: 'first' },
+//   { age: 20, name: 'second' },
+//   { age: 30, name: 'third' },
+//   { age: 40, name: 'fourth' },
+// ];
+//
+// // Используем map, чтобы изменить порядок свойств и добавить новое свойство
+// const storage2 = storage.map((item) => ({
+//   age: item.name,
+//   name: item.age,
+//   reversed: true,
+// }));
+//
+// console.log(storage2);
 /* Ожидаемый вывод:
 [
   { age: 'first', name: 10, reversed: true },
@@ -1040,3 +1040,79 @@ console.log(storage2);
   { age: 'fourth', name: 40, reversed: true }
 ]
 */
+
+// Сортировка
+const sortArr = (arr: User[], key: keyof User, direction: 'asc' | 'desc' = 'asc'): User[] => {
+  // Создаем копию массива, чтобы не изменять оригинальный
+  const sortedArray = [...arr];
+
+  // Сортируем копию массива
+  sortedArray.sort((a, b) => {
+    if (a[key] < b[key]) {
+      return direction === 'asc' ? -1 : 1;
+    }
+    if (a[key] > b[key]) {
+      return direction === 'asc' ? 1 : -1;
+    }
+    return 0; // Если значения равны
+  });
+
+  return sortedArray;
+};
+
+type User = { id: number; age: number; name: string };
+
+const users: User[] = [
+  { id: 1, age: 10, name: 'zxc' },
+  { id: 3, age: 20, name: 'juk' },
+  { id: 6, age: 2, name: 'aa' },
+  { id: 9, age: 1, name: 'ab' },
+  { id: 2, age: 5, name: 'zz' },
+];
+
+// Сортировка по id по возрастанию
+const sortedByIdAsc = sortArr(users, 'id');
+console.log(sortedByIdAsc);
+// Отсортированы по увеличению id
+// [
+//   { id: 1, age: 10, name: 'zxc' },
+//   { id: 2, age: 5, name: 'zz' },
+//   { id: 3, age: 20, name: 'juk' },
+//   { id: 6, age: 2, name: 'aa' },
+//   { id: 9, age: 1, name: 'ab' }
+// ]
+
+// Сортировка по name по убыванию
+const sortedByNameDesc = sortArr(users, 'name', 'desc');
+console.log(sortedByNameDesc);
+// Отсортированы по уменьшению имени
+// [
+//   { id: 2, age: 5, name: 'zz' },
+//   { id: 1, age: 10, name: 'zxc' },
+//   { id: 3, age: 20, name: 'juk' },
+//   { id: 9, age: 1, name: 'ab' },
+//   { id: 6, age: 2, name: 'aa' }
+// ]
+
+// Сортировка по age по убыванию
+const sortedByAgeDesc = sortArr(users, 'age', 'desc');
+console.log(sortedByAgeDesc);
+// Отсортированы по уменьшению возраста
+// [
+//   { id: 3, age: 20, name: 'juk' },
+//   { id: 1, age: 10, name: 'zxc' },
+//   { id: 2, age: 5, name: 'zz' },
+//   { id: 6, age: 2, name: 'aa' },
+//   { id: 9, age: 1, name: 'ab' }
+// ]
+
+// Проверим, что оригинальный массив остался нетронутым
+console.log(users);
+// Оригинальный массив users остался не тронутым!
+// [
+//   { id: 1, age: 10, name: 'zxc' },
+//   { id: 3, age: 20, name: 'juk' },
+//   { id: 6, age: 2, name: 'aa' },
+//   { id: 9, age: 1, name: 'ab' },
+//   { id: 2, age: 5, name: 'zz' }
+// ]
