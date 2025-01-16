@@ -989,29 +989,54 @@
 // console.log(randomElements); // [ 5, 8, 10 ]
 
 // Удаление из массива
-type User = {
-  name: string;
-  age: number;
-};
-
-let users: User[] = [
-  { name: 'Пользователь-1', age: 1 },
-  { name: 'Пользователь-21', age: 21 },
-  { name: 'Пользователь-30', age: 30 },
-  { name: 'Пользователь-14', age: 14 },
-  { name: 'Пользователь-18', age: 18 },
-  { name: 'Пользователь--1', age: -1 },
-  { name: 'Пользователь-1', age: 1 },
-];
-
-// Фильтруем массив, оставляем только совершеннолетних пользователей
-users = users.filter((user) => user.age >= 18);
-
-console.log(users);
+// type User = {
+//   name: string;
+//   age: number;
+// };
+//
+// let users: User[] = [
+//   { name: 'Пользователь-1', age: 1 },
+//   { name: 'Пользователь-21', age: 21 },
+//   { name: 'Пользователь-30', age: 30 },
+//   { name: 'Пользователь-14', age: 14 },
+//   { name: 'Пользователь-18', age: 18 },
+//   { name: 'Пользователь--1', age: -1 },
+//   { name: 'Пользователь-1', age: 1 },
+// ];
+//
+// // Фильтруем массив, оставляем только совершеннолетних пользователей
+// users = users.filter((user) => user.age >= 18);
+//
+// console.log(users);
 /* Ожидаемый вывод:
 [
   { name: 'Пользователь-21', age: 21 },
   { name: 'Пользователь-30', age: 30 },
   { name: 'Пользователь-18', age: 18 },
+]
+*/
+
+// Обогатите список
+const storage = [
+  { age: 10, name: 'first' },
+  { age: 20, name: 'second' },
+  { age: 30, name: 'third' },
+  { age: 40, name: 'fourth' },
+];
+
+// Используем map, чтобы изменить порядок свойств и добавить новое свойство
+const storage2 = storage.map((item) => ({
+  age: item.name,
+  name: item.age,
+  reversed: true,
+}));
+
+console.log(storage2);
+/* Ожидаемый вывод:
+[
+  { age: 'first', name: 10, reversed: true },
+  { age: 'second', name: 20, reversed: true },
+  { age: 'third', name: 30, reversed: true },
+  { age: 'fourth', name: 40, reversed: true }
 ]
 */
