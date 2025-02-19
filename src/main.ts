@@ -1258,13 +1258,57 @@
 // console.log(object);
 
 // Простой merge в новый объект
-const mergeToNewObject = <T extends object, U extends object>(a: T, b: U): T & U => {
-  return { ...a, ...b };
-};
-const obj1 = { a: 10, b: 100, c: 1 };
-const obj2 = { a: 20, b: 200, e: 2 };
-const obj3 = mergeToNewObject(obj1, obj2);
+// const mergeToNewObject = <T extends object, U extends object>(a: T, b: U): T & U => {
+//   return { ...a, ...b };
+// };
+// const obj1 = { a: 10, b: 100, c: 1 };
+// const obj2 = { a: 20, b: 200, e: 2 };
+// const obj3 = mergeToNewObject(obj1, obj2);
+//
+// console.log(obj1); // {a: 10, b: 100, c: 1}
+// console.log(obj2); // { a: 20, b: 200, e: 2 }
+// console.log(obj3); // { a: 20, b: 200, c: 1, e: 2 }
 
-console.log(obj1); // {a: 10, b: 100, c: 1}
-console.log(obj2); // { a: 20, b: 200, e: 2 }
-console.log(obj3); // { a: 20, b: 200, c: 1, e: 2 }
+// Merge с очередностью
+const merge = <T extends object, U extends object>(a: T, b: U, order: 1 | 2 = 1): T & U & { merged: string } => {
+  return order === 2 ? { ...b, ...a, merged: 'YES!' } : { ...a, ...b, merged: 'NO!' };
+};
+
+const obj1 = { a: 10, b: 'b', c: 100, child: { name: 'ch', surname: 'hc' } };
+const obj2 = { a: 20, b: ['b'], d: 200, child: { aa: 'aa', bb: 'bb' } };
+
+console.log(merge(obj1, obj2));
+/* Вывод:
+{
+  a: 20,
+  b: [ 'b' ],
+  c: 100,
+  child: { aa: 'aa', bb: 'bb' },
+  d: 200,
+  merged: 'NO!'
+}
+*/
+
+console.log(merge(obj1, obj2, 1));
+/* Вывод:
+{
+  a: 20,
+  b: [ 'b' ],
+  c: 100,
+  child: { aa: 'aa', bb: 'bb' },
+  d: 200,
+  merged: 'NO!'
+}
+*/
+
+console.log(merge(obj1, obj2, 2));
+/* Вывод:
+{
+  a: 10,
+  b: 'b',
+  c: 100,
+  child: { name: 'ch', surname: 'hc' },
+  d: 200,
+  merged: 'YES!'
+}
+*/
