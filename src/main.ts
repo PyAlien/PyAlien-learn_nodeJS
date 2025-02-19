@@ -1182,57 +1182,77 @@
 // }
 
 // Логические операторы
-import { green, red } from 'chalk';
+// import { green, red } from 'chalk';
+//
+// // Определение типов
+// type BinaryMatrixRow = [boolean, boolean];
+// type BinaryMatrix = [BinaryMatrixRow, BinaryMatrixRow, BinaryMatrixRow, BinaryMatrixRow];
+//
+// const matrix: BinaryMatrix = [
+//   [false, false],
+//   [false, true],
+//   [true, false],
+//   [true, true],
+// ];
+//
+// type Operator = (a: boolean, b: boolean) => boolean;
+// type UnaryOperator = (a: boolean) => boolean;
+// type ExpectedResult = [boolean, boolean, boolean, boolean];
+//
+// // Реализация логических операторов
+// const or: Operator = (a, b) => a || b;
+// const and: Operator = (a, b) => a && b;
+// const e: Operator = (a, b) => a === b;
+// const ne: Operator = (a, b) => a !== b;
+// const nand: Operator = (a, b) => !(a && b);
+// const nor: Operator = (a, b) => !(a || b);
+// const xor: Operator = (a, b) => a !== b;
+// const n: UnaryOperator = (a) => !a;
+//
+// // Тест-кейсы для бинарных операторов
+// const testCasesForMatrix: [BinaryMatrix, Operator, ExpectedResult][] = [
+//   [matrix, or, [false, true, true, true]],
+//   [matrix, and, [false, false, false, true]],
+//   [matrix, e, [true, false, false, true]],
+//   [matrix, ne, [false, true, true, false]],
+//   [matrix, nand, [true, true, true, false]],
+//   [matrix, nor, [true, false, false, false]],
+// ];
+//
+// for (const testCase of testCasesForMatrix) {
+//   const [dataset, operator, expectedResults] = testCase;
+//
+//   for (let i = 0; i < dataset.length; i++) {
+//     const [a, b] = dataset[i];
+//     const expectedResult = expectedResults[i];
+//
+//     const result = operator(a, b);
+//     const message = `[${operator.name}]\t[${i + 1}/${dataset.length}]:`;
+//
+//     if (result === expectedResult) {
+//       console.log(green(`${message} Успешно`));
+//     } else {
+//       console.error(red(`${message} ОШИБКА! Ожидалось: ${expectedResult}, получено: ${result}`));
+//     }
+//   }
+// }
+// Что выведет код?
+const known = undefined; // false
+const email = ''; // false
+const nick = 'nickname'; // true
+const age = 0; // false
+const isReady = false; // false
+const size = 1; // true
+const photo = null; // false
 
-// Определение типов
-type BinaryMatrixRow = [boolean, boolean];
-type BinaryMatrix = [BinaryMatrixRow, BinaryMatrixRow, BinaryMatrixRow, BinaryMatrixRow];
-
-const matrix: BinaryMatrix = [
-  [false, false],
-  [false, true],
-  [true, false],
-  [true, true],
-];
-
-type Operator = (a: boolean, b: boolean) => boolean;
-type UnaryOperator = (a: boolean) => boolean;
-type ExpectedResult = [boolean, boolean, boolean, boolean];
-
-// Реализация логических операторов
-const or: Operator = (a, b) => a || b;
-const and: Operator = (a, b) => a && b;
-const e: Operator = (a, b) => a === b;
-const ne: Operator = (a, b) => a !== b;
-const nand: Operator = (a, b) => !(a && b);
-const nor: Operator = (a, b) => !(a || b);
-const xor: Operator = (a, b) => a !== b;
-const n: UnaryOperator = (a) => !a;
-
-// Тест-кейсы для бинарных операторов
-const testCasesForMatrix: [BinaryMatrix, Operator, ExpectedResult][] = [
-  [matrix, or, [false, true, true, true]],
-  [matrix, and, [false, false, false, true]],
-  [matrix, e, [true, false, false, true]],
-  [matrix, ne, [false, true, true, false]],
-  [matrix, nand, [true, true, true, false]],
-  [matrix, nor, [true, false, false, false]],
-];
-
-for (const testCase of testCasesForMatrix) {
-  const [dataset, operator, expectedResults] = testCase;
-
-  for (let i = 0; i < dataset.length; i++) {
-    const [a, b] = dataset[i];
-    const expectedResult = expectedResults[i];
-
-    const result = operator(a, b);
-    const message = `[${operator.name}]\t[${i + 1}/${dataset.length}]:`;
-
-    if (result === expectedResult) {
-      console.log(green(`${message} Успешно`));
-    } else {
-      console.error(red(`${message} ОШИБКА! Ожидалось: ${expectedResult}, получено: ${result}`));
-    }
-  }
-}
+const object = {
+  ...(email ? { email } : { n: 1 }), // { n: 1}
+  ...(nick ? { nick, n: 2 } : { g: 8 }), // { nick, n: 2 }
+  ...(age ? { age } : { n: 3 }), // { n: 3 }
+  ...(isReady ? { isReady, n: 10 } : {}), // {}
+  ...(size ? { size, n: 9 } : {}), // { size, n: 9 }
+  ...(known ? { known } : { x: 4 }), // { x: 4 }
+  ...(photo ? { photo } : { x: 5 }), // { x: 5 }
+};
+// { nick: 'nickname', size: 1, n: 9, x: 5 }
+console.log(object);
