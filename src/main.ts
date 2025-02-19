@@ -1237,22 +1237,34 @@
 //   }
 // }
 // Что выведет код?
-const known = undefined; // false
-const email = ''; // false
-const nick = 'nickname'; // true
-const age = 0; // false
-const isReady = false; // false
-const size = 1; // true
-const photo = null; // false
+// const known = undefined; // false
+// const email = ''; // false
+// const nick = 'nickname'; // true
+// const age = 0; // false
+// const isReady = false; // false
+// const size = 1; // true
+// const photo = null; // false
+//
+// const object = {
+//   ...(email ? { email } : { n: 1 }), // { n: 1}
+//   ...(nick ? { nick, n: 2 } : { g: 8 }), // { nick, n: 2 }
+//   ...(age ? { age } : { n: 3 }), // { n: 3 }
+//   ...(isReady ? { isReady, n: 10 } : {}), // {}
+//   ...(size ? { size, n: 9 } : {}), // { size, n: 9 }
+//   ...(known ? { known } : { x: 4 }), // { x: 4 }
+//   ...(photo ? { photo } : { x: 5 }), // { x: 5 }
+// };
+// // { nick: 'nickname', size: 1, n: 9, x: 5 }
+// console.log(object);
 
-const object = {
-  ...(email ? { email } : { n: 1 }), // { n: 1}
-  ...(nick ? { nick, n: 2 } : { g: 8 }), // { nick, n: 2 }
-  ...(age ? { age } : { n: 3 }), // { n: 3 }
-  ...(isReady ? { isReady, n: 10 } : {}), // {}
-  ...(size ? { size, n: 9 } : {}), // { size, n: 9 }
-  ...(known ? { known } : { x: 4 }), // { x: 4 }
-  ...(photo ? { photo } : { x: 5 }), // { x: 5 }
+// Простой merge в новый объект
+const mergeToNewObject = <T extends object, U extends object>(a: T, b: U): T & U => {
+  return { ...a, ...b };
 };
-// { nick: 'nickname', size: 1, n: 9, x: 5 }
-console.log(object);
+const obj1 = { a: 10, b: 100, c: 1 };
+const obj2 = { a: 20, b: 200, e: 2 };
+const obj3 = mergeToNewObject(obj1, obj2);
+
+console.log(obj1); // {a: 10, b: 100, c: 1}
+console.log(obj2); // { a: 20, b: 200, e: 2 }
+console.log(obj3); // { a: 20, b: 200, c: 1, e: 2 }
