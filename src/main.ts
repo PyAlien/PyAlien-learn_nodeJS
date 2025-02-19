@@ -1270,45 +1270,71 @@
 // console.log(obj3); // { a: 20, b: 200, c: 1, e: 2 }
 
 // Merge с очередностью
-const merge = <T extends object, U extends object>(a: T, b: U, order: 1 | 2 = 1): T & U & { merged: string } => {
-  return order === 2 ? { ...b, ...a, merged: 'YES!' } : { ...a, ...b, merged: 'NO!' };
-};
+// const merge = <T extends object, U extends object>(a: T, b: U, order: 1 | 2 = 1): T & U & { merged: string } => {
+//   return order === 2 ? { ...b, ...a, merged: 'YES!' } : { ...a, ...b, merged: 'NO!' };
+// };
+//
+// const obj1 = { a: 10, b: 'b', c: 100, child: { name: 'ch', surname: 'hc' } };
+// const obj2 = { a: 20, b: ['b'], d: 200, child: { aa: 'aa', bb: 'bb' } };
+//
+// console.log(merge(obj1, obj2));
+// /* Вывод:
+// {
+//   a: 20,
+//   b: [ 'b' ],
+//   c: 100,
+//   child: { aa: 'aa', bb: 'bb' },
+//   d: 200,
+//   merged: 'NO!'
+// }
+// */
+//
+// console.log(merge(obj1, obj2, 1));
+// /* Вывод:
+// {
+//   a: 20,
+//   b: [ 'b' ],
+//   c: 100,
+//   child: { aa: 'aa', bb: 'bb' },
+//   d: 200,
+//   merged: 'NO!'
+// }
+// */
+//
+// console.log(merge(obj1, obj2, 2));
+// /* Вывод:
+// {
+//   a: 10,
+//   b: 'b',
+//   c: 100,
+//   child: { name: 'ch', surname: 'hc' },
+//   d: 200,
+//   merged: 'YES!'
+// }
+// */
 
-const obj1 = { a: 10, b: 'b', c: 100, child: { name: 'ch', surname: 'hc' } };
-const obj2 = { a: 20, b: ['b'], d: 200, child: { aa: 'aa', bb: 'bb' } };
+// Исправьте код. Массивы
+const storage = [
+  'nick',
+  'nack',
+  'nock',
+  [
+    {
+      first: 'forecast',
+      child: null,
+    },
+    {
+      first: 'castfore',
+      child: null,
+    },
+    'zzz',
+  ],
+  'no-1',
+  'no-2',
+];
 
-console.log(merge(obj1, obj2));
-/* Вывод:
-{
-  a: 20,
-  b: [ 'b' ],
-  c: 100,
-  child: { aa: 'aa', bb: 'bb' },
-  d: 200,
-  merged: 'NO!'
-}
-*/
+const [, , , [, b1, cos], ...nos] = storage;
 
-console.log(merge(obj1, obj2, 1));
-/* Вывод:
-{
-  a: 20,
-  b: [ 'b' ],
-  c: 100,
-  child: { aa: 'aa', bb: 'bb' },
-  d: 200,
-  merged: 'NO!'
-}
-*/
-
-console.log(merge(obj1, obj2, 2));
-/* Вывод:
-{
-  a: 10,
-  b: 'b',
-  c: 100,
-  child: { name: 'ch', surname: 'hc' },
-  d: 200,
-  merged: 'YES!'
-}
-*/
+console.log(nos); // [ 'no-1', 'no-2' ]
+console.log(cos); // 'zzz'
+console.log(b1); // { first: 'castfore', child: null }
