@@ -1151,32 +1151,88 @@
 // });
 
 // Палиндром
+// import { green, red } from 'chalk';
+//
+// const isPalindrome = (word: string): boolean => word === word.split('').reverse().join('');
+//
+// const tests: [string, boolean][] = [
+//   ['топот', true],
+//   ['пот', false],
+//   ['потоп', true],
+//   ['кабак', true],
+//   ['(())', false],
+//   ['табат', true],
+//   ['abab', false],
+//   ['топпот', true],
+//   ['()()', false],
+//   ['', true],
+//   ['123321', true],
+//   ['())(', true],
+//   ['abba', true],
+//   ['а роза упала на лапу азора', false],
+// ];
+//
+// for (const [word, expected] of tests) {
+//   const result = isPalindrome(word);
+//   if (result !== expected) {
+//     console.log(red(`Для слова "${word}" тест не прошел. Ожидалось: ${expected} | Получено: ${result}`));
+//   } else {
+//     console.log(green(`Слово "${word}" успешно. Результат: ${result}`));
+//   }
+// }
+
+// Логические операторы
 import { green, red } from 'chalk';
 
-const isPalindrome = (word: string): boolean => word === word.split('').reverse().join('');
+// Определение типов
+type BinaryMatrixRow = [boolean, boolean];
+type BinaryMatrix = [BinaryMatrixRow, BinaryMatrixRow, BinaryMatrixRow, BinaryMatrixRow];
 
-const tests: [string, boolean][] = [
-  ['топот', true],
-  ['пот', false],
-  ['потоп', true],
-  ['кабак', true],
-  ['(())', false],
-  ['табат', true],
-  ['abab', false],
-  ['топпот', true],
-  ['()()', false],
-  ['', true],
-  ['123321', true],
-  ['())(', true],
-  ['abba', true],
-  ['а роза упала на лапу азора', false],
+const matrix: BinaryMatrix = [
+  [false, false],
+  [false, true],
+  [true, false],
+  [true, true],
 ];
 
-for (const [word, expected] of tests) {
-  const result = isPalindrome(word);
-  if (result !== expected) {
-    console.log(red(`Для слова "${word}" тест не прошел. Ожидалось: ${expected} | Получено: ${result}`));
-  } else {
-    console.log(green(`Слово "${word}" успешно. Результат: ${result}`));
+type Operator = (a: boolean, b: boolean) => boolean;
+type UnaryOperator = (a: boolean) => boolean;
+type ExpectedResult = [boolean, boolean, boolean, boolean];
+
+// Реализация логических операторов
+const or: Operator = (a, b) => a || b;
+const and: Operator = (a, b) => a && b;
+const e: Operator = (a, b) => a === b;
+const ne: Operator = (a, b) => a !== b;
+const nand: Operator = (a, b) => !(a && b);
+const nor: Operator = (a, b) => !(a || b);
+const xor: Operator = (a, b) => a !== b;
+const n: UnaryOperator = (a) => !a;
+
+// Тест-кейсы для бинарных операторов
+const testCasesForMatrix: [BinaryMatrix, Operator, ExpectedResult][] = [
+  [matrix, or, [false, true, true, true]],
+  [matrix, and, [false, false, false, true]],
+  [matrix, e, [true, false, false, true]],
+  [matrix, ne, [false, true, true, false]],
+  [matrix, nand, [true, true, true, false]],
+  [matrix, nor, [true, false, false, false]],
+];
+
+for (const testCase of testCasesForMatrix) {
+  const [dataset, operator, expectedResults] = testCase;
+
+  for (let i = 0; i < dataset.length; i++) {
+    const [a, b] = dataset[i];
+    const expectedResult = expectedResults[i];
+
+    const result = operator(a, b);
+    const message = `[${operator.name}]\t[${i + 1}/${dataset.length}]:`;
+
+    if (result === expectedResult) {
+      console.log(green(`${message} Успешно`));
+    } else {
+      console.error(red(`${message} ОШИБКА! Ожидалось: ${expectedResult}, получено: ${result}`));
+    }
   }
 }
