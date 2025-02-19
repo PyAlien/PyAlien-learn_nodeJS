@@ -1117,35 +1117,66 @@
 // //   { id: 2, age: 5, name: 'zz' }
 // // ]
 
-// Reduce. Оценки
-const values = [
-  [1, 100],
-  [2, 200],
-  [3, 300],
-  [1, 2],
-  [3, 400],
-  [4, 500],
-  [1, 99],
+// // Reduce. Оценки
+// const values = [
+//   [1, 100],
+//   [2, 200],
+//   [3, 300],
+//   [1, 2],
+//   [3, 400],
+//   [4, 500],
+//   [1, 99],
+// ];
+//
+// const result = values.reduce(
+//   (acc: Record<number, { count: number; sum: number; details: string[] }>, [score, students]) => {
+//     if (!acc[score]) {
+//       acc[score] = { count: 0, sum: 0, details: [] };
+//     }
+//
+//     acc[score].count++;
+//     acc[score].sum += students;
+//     acc[score].details.push(`[${score}, ${students}]`);
+//
+//     return acc;
+//   },
+//   {},
+// );
+//
+// // Форматированный вывод
+// Object.entries(result).forEach(([score, { count, sum, details }]) => {
+//   const suffix = count === 1 ? 'раз' : 'раза';
+//   const detailsText = details.join(', ');
+//   console.log(`Оценка ${score} встретилась ${count} ${suffix} - ${detailsText} и всего = ${sum} чел`);
+// });
+
+// Палиндром
+import { green, red } from 'chalk';
+
+const isPalindrome = (word: string): boolean => word === word.split('').reverse().join('');
+
+const tests: [string, boolean][] = [
+  ['топот', true],
+  ['пот', false],
+  ['потоп', true],
+  ['кабак', true],
+  ['(())', false],
+  ['табат', true],
+  ['abab', false],
+  ['топпот', true],
+  ['()()', false],
+  ['', true],
+  ['123321', true],
+  ['())(', true],
+  ['abba', true],
+  ['а роза упала на лапу азора', false],
 ];
 
-const result = values.reduce(
-  (acc: Record<number, { count: number; sum: number; details: string[] }>, [score, students]) => {
-    if (!acc[score]) {
-      acc[score] = { count: 0, sum: 0, details: [] };
-    }
-
-    acc[score].count++;
-    acc[score].sum += students;
-    acc[score].details.push(`[${score}, ${students}]`);
-
-    return acc;
-  },
-  {},
-);
-
-// Форматированный вывод
-Object.entries(result).forEach(([score, { count, sum, details }]) => {
-  const suffix = count === 1 ? 'раз' : 'раза';
-  const detailsText = details.join(', ');
-  console.log(`Оценка ${score} встретилась ${count} ${suffix} - ${detailsText} и всего = ${sum} чел`);
-});
+for (const [word, expected] of tests) {
+  const result = isPalindrome(word);
+  if (result !== expected) {
+    console.log(red(`Для слова "${word}" тест не прошел. Ожидалось: ${expected} | Получено: ${result}`));
+  } else {
+    console.log(green(`Слово "${word}" успешно. Результат: ${result}`));
+  }
+}
