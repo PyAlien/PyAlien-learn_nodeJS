@@ -1420,18 +1420,52 @@
 // Создайте дженерик-тип `WithId<T>`,
 // который к переданному типу будет добавлять `id: number`
 
-type WithId<T extends {name: string}> = {
-  id: number,
-  name: T['name'],
-};
+// type WithId<T extends {name: string}> = {
+//   id: number,
+//   name: T['name'],
+// };
+//
+// type Person = {
+//   name: string;
+// };
+//
+// const p: WithId<Person> = {
+//   id: 1,
+//   name: 'name',
+// };
+//
+// console.log(p);
 
-type Person = {
+//parse
+
+// Для конвертации JavaScript объекта в его строковый вид и обратно используются 2 функции:
+// JSON.stringify() - принимает на вход объект, возвращает его в виде строки,
+//   например JSON.stringify({ a: 10, b: 'abc' }) вернет строку "{"a":10,"b":"abc"}"
+// JSON.parse() - принимает на вход строку, парсит и возвращает объект,
+//   например JSON.parse("{"a":10,"b":"abc"}") вернет объект { a: 10, b: 'abc' }
+// К сожалению, JSON.parse не имеет дженерика, и любой ответ возвращает типа any,
+// создайте функцию-обёртку parse, которая будет под-капотом делать JSON.parse, и типизировать ответ
+import { faker } from '@faker-js/faker';
+
+// Функция-обёртка для JSON.parse
+const parse = <T>(jsonString: string): T => JSON.parse(jsonString) as T;
+
+// Описание типа User
+type User = {
+  id: number;
   name: string;
 };
 
-const p: WithId<Person> = {
-  id: 1,
-  name: 'name',
+// Генерация тестового пользователя с помощью faker
+const user: User = {
+  id: faker.number.int(),
+  name: faker.person.fullName(),
 };
 
-console.log(p);
+const userString = JSON.stringify(user);
+
+// WebStorm подсвечивает тип User для этой переменной
+const parsedUser = parse<User>(userString);
+
+console.log(parsedUser.name); // example
+console.log(parsedUser.abc); // Здесь горит ошибка "TS2339: Property abc does not exist on type User"
