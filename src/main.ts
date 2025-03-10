@@ -1387,30 +1387,51 @@
 // console.log(child1); // undefined
 
 // Пагинация
-type Paginated<T = unknown> = {
-  total: number;
-  limit: number;
-  offset: number;
-  items: T[];
+// Создайте дженерик-тип Paginated<T>, чтобы код ниже заработал
+// type Paginated<T=unknown> = {
+//   total: number,
+//   limit: number,
+//   offset: number,
+//   items: T[]
+// }
+//
+// type Person = {
+//   name: string;
+// };
+//
+// const responseOfPersons: Paginated<Person> = {
+//   total: 10,
+//   limit: 5,
+//   offset: 0,
+//   items: [{ name: 'P1' }],
+// };
+//
+// const responseOfSomething: Paginated = {
+//   total: 10,
+//   limit: 5,
+//   offset: 0,
+//   items: [],
+// };
+//
+// console.log(responseOfPersons);
+// console.log(responseOfSomething);
+
+// Расширение
+// Создайте дженерик-тип `WithId<T>`,
+// который к переданному типу будет добавлять `id: number`
+
+type WithId<T extends {name: string}> = {
+  id: number,
+  name: T['name'],
 };
 
 type Person = {
   name: string;
 };
 
-const responseOfPersons: Paginated<Person> = {
-  total: 10,
-  limit: 5,
-  offset: 0,
-  items: [{ name: 'P1' }],
+const p: WithId<Person> = {
+  id: 1,
+  name: 'name',
 };
 
-const responseOfSomething: Paginated = {
-  total: 10,
-  limit: 5,
-  offset: 0,
-  items: [],
-};
-
-console.log(responseOfPersons);
-console.log(responseOfSomething);
+console.log(p);
