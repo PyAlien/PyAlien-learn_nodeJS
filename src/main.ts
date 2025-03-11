@@ -1445,27 +1445,50 @@
 //   например JSON.parse("{"a":10,"b":"abc"}") вернет объект { a: 10, b: 'abc' }
 // К сожалению, JSON.parse не имеет дженерика, и любой ответ возвращает типа any,
 // создайте функцию-обёртку parse, которая будет под-капотом делать JSON.parse, и типизировать ответ
-import { faker } from '@faker-js/faker';
+// import { faker } from '@faker-js/faker';
+//
+// // Функция-обёртка для JSON.parse
+// const parse = <T>(jsonString: string): T => JSON.parse(jsonString) as T;
+//
+// // Описание типа User
+// type User = {
+//   id: number;
+//   name: string;
+// };
+//
+// // Генерация тестового пользователя с помощью faker
+// const user: User = {
+//   id: faker.number.int(),
+//   name: faker.person.fullName(),
+// };
+//
+// const userString = JSON.stringify(user);
+//
+// // WebStorm подсвечивает тип User для этой переменной
+// const parsedUser = parse<User>(userString);
+//
+// console.log(parsedUser.name); // example
+// console.log(parsedUser.abc); // Здесь горит ошибка "TS2339: Property abc does not exist on type User"
 
-// Функция-обёртка для JSON.parse
-const parse = <T>(jsonString: string): T => JSON.parse(jsonString) as T;
+// findInArray
 
-// Описание типа User
-type User = {
-  id: number;
-  name: string;
-};
+// Напишите функцию findInArray, которая на вход принимает два аргумента:
+// Массив элементов
+// Искомый элемент (обязательно того же типа, что и массив)
+// Ищет индекс этого элемента в массиве и возвращает один из ответов:
+// null - если такого элемента в массив нет
+// { value: *САМ ЭЛЕМЕНТ*, index: *ЕГО ИНДЕКС* }
+// Не забудьте про дженерики - второй аргумент и возвращаемый value
+// должны быть строго того же типа, что и полученный на вход массив
 
-// Генерация тестового пользователя с помощью faker
-const user: User = {
-  id: faker.number.int(),
-  name: faker.person.fullName(),
-};
+const findInArray = <T> (arr: T[], target: T): {value: T; index: number} | null => {
+  const index = arr.indexOf(target);
+  return index !== -1 ? {value: target, index} : null;
+}
+// WebStorm должен подсвечивать тип { value: number, index: number } | null
+const number1 = findInArray([1, 2, 3], 4);
+console.log(number1); // null
 
-const userString = JSON.stringify(user);
-
-// WebStorm подсвечивает тип User для этой переменной
-const parsedUser = parse<User>(userString);
-
-console.log(parsedUser.name); // example
-console.log(parsedUser.abc); // Здесь горит ошибка "TS2339: Property abc does not exist on type User"
+// WebStorm должен подсвечивать тип { value: string, index: number } | null
+const string1 = findInArray(['one', 'two'], 'two');
+console.log(string1); // { value: 'two', index: 1 }
