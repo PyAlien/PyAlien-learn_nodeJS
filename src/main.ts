@@ -1500,24 +1500,74 @@
 // Создайте функцию getManyRandomItems(items, count), которая принимает на вход массив элементов и размер, и возвращает новый массив, который содержит count рандомных элементов из items, используя функцию getOneRandomItem(items). Не забудьте про дженерики!
 // Укажите подходящие типы для аргументов и возвращаемых значений!
 
-const generateRandomValue = (min: number, max: number): number => {
-  return Math.floor(Math.random() * (max - min + 1)) + min
+// const generateRandomValue = (min: number, max: number): number => {
+//   return Math.floor(Math.random() * (max - min + 1)) + min
+// };
+//
+// const getOneRandomItem = <T> (items: T[]): T => {
+//   const randomIndex = generateRandomValue(0, items.length-1);
+//   return items[randomIndex];
+// };
+//
+// const getManyRandomItems = <T> (items: T[], count: number): T[] => {
+//   return Array.from({ length: count }, () => getOneRandomItem(items));
+// };
+//
+// const words = ['alpha', 'bravo', 'charlie', 'delta', 'echo', 'foxtrot'];
+// const [first, second] = getManyRandomItems(words, 2);
+// console.log(first.toUpperCase()); // first должен подсвечиваться типом string
+// console.log(second.toUpperCase()); // second должен подсвечиваться типом string
+//
+// const numbers = [1, 2, 3, 4, 5, 6];
+// const [digit] = getManyRandomItems(numbers, 1);
+// console.log(digit * 100); // digit должен подсвечиваться типом number
+
+//Utility Types
+// На его основе сначала создайте тип First, а затем уже на основе First создайте тип Second. Используйте утилитарные
+// типы Partial, Readonly, Required, Omit и Pick. Попробуйте хотя бы раз использовать и Omit и Pick
+type Person = {
+  name: string;
+  age: number;
+  nickname: string;
+  photo: string;
 };
 
-const getOneRandomItem = <T> (items: T[]): T => {
-  const randomIndex = generateRandomValue(0, items.length-1);
-  return items[randomIndex];
+// Создаём First:
+// - Делаем name и age неизменяемыми (Readonly)
+// - Делаем nickname необязательным (Partial)
+// - Убираем поле photo (Omit)
+type First = Readonly<Pick<Person, "name" | "age">> & Partial<Pick<Person, "nickname">>;
+
+// Создаём Second:
+// - Берём всё из First
+// - Делаем nickname обязательным (Required)
+// - Добавляем photo обратно (из Omit мы его удаляли, теперь возвращаем)
+type Second = Required<First> & Pick<Person, "photo">;
+
+// Проверка:
+const person1: First = {
+  name: "Alice",
+  age: 30,
 };
 
-const getManyRandomItems = <T> (items: T[], count: number): T[] => {
-  return Array.from({ length: count }, () => getOneRandomItem(items));
+// Ошибка! Нельзя изменять name и age, так как они Readonly
+// person1.name = "Bob";
+// person1.age = 35;
+// person1.nickname = "Al"; // Можно, так как nickname необязательный
+
+const person2: Second = {
+  name: "Bob",
+  age: 25,
+  nickname: "Bobby",
+  photo: "photo.jpg",
 };
 
-const words = ['alpha', 'bravo', 'charlie', 'delta', 'echo', 'foxtrot'];
-const [first, second] = getManyRandomItems(words, 2);
-console.log(first.toUpperCase()); // first должен подсвечиваться типом string
-console.log(second.toUpperCase()); // second должен подсвечиваться типом string
+// Ошибка! nickname обязателен в Second
+// const person3: Second = {
+//   name: "Charlie",
+//   age: 28,
+//   photo: "photo.png",
+// }
 
-const numbers = [1, 2, 3, 4, 5, 6];
-const [digit] = getManyRandomItems(numbers, 1);
-console.log(digit * 100); // digit должен подсвечиваться типом number
+console.log(person1);
+console.log(person2);
