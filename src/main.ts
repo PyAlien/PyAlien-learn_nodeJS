@@ -1575,47 +1575,71 @@
 // keyof
 // Доработайте код, чтобы он работал как ожидается - чтобы функция getValue принимала первым аргументов объект, а вторым аргументом название ключа, который есть конкретно у этого объекта, и возвращала значение этого ключа в этом объекте. Не забудьте про дженерики.
 
-const getValue = <T, K extends keyof T>(obj: T, key: K): T[K] => {
-  return obj[key];
+// const getValue = <T, K extends keyof T>(obj: T, key: K): T[K] => {
+//   return obj[key];
+// }
+//
+// const g = {
+//   a: 1,
+//   b: '',
+//   c: true
+// };
+// const typeTest1: number = getValue(g, 'a'); // 1
+// const typeTest2: string = getValue(g, 'b'); // ''
+// const typeTest3: boolean = getValue(g, 'c'); // true
+//
+// const a = { id: 1, name: 's' };
+// console.log(getValue(a, 'id')); // 1
+// console.log(getValue(a, 'name')); // 's'
+//
+// // Ошибка! Ключа "key" нет в { id: number, name: string }
+// // console.log(getValue(a, 'key'));
+//
+// // Ошибка! Ключа "age" нет в {}
+// // console.log(getValue({}, 'age'));
+//
+// const b = { email: 'ex' };
+// console.log(getValue(b, 'email')); // ex
+//
+// // Ошибка! Ключа '' нет в { email: string }
+// // console.log(getValue(b, ''));
+//
+// console.log(getValue({ ...a, x: 10 }, 'x')); // 10
+// console.log(getValue({ ...a, x: 10 }, 'name')); // 's'
+// console.log(getValue({ ...a, x: 10 }, 'id')); // 1
+//
+// // Ошибка! Ключа "s" нет в объекте
+// // console.log(getValue({ ...a, x: 10 }, 's'));
+//
+// console.log(getValue({ ...b, ...a }, 'email')); // ex
+//
+// const checkNumber: number = getValue({ age: 1 }, 'age'); // 1
+// const checkBoolean: boolean = getValue({ a: true }, 'a'); // true
+// const checkNull: null = getValue({ x: null }, 'x'); // null
+//
+// console.log(getValue({ a: 'str' }, 'a').toUpperCase()); // STR
+// console.log(getValue({ a: 10 }, 'a') ** 2); // 100
+
+// keyof union
+// Исправьте код, добавьте функцию getValue, которая на этот раз принимает 2 объекта и ключ, который есть в каждом
+// из объектов, и возвращает значения по этому ключу из первого и второго объекта.
+
+const getValue = <T, U, K extends keyof T & keyof U>(obj1: T, obj2: U, key: K): [T[K], U[K]] => {
+  return [obj1[key], obj2[key]];
 }
+// const [z, x] = getValue({ name: 'z', a: 10 }, { name: 'x', b: true }, 'name');
+// console.log(z.toUpperCase(), x.toLowerCase()); // Z X
 
-const g = {
-  a: 1,
-  b: '',
-  c: true
-};
-const typeTest1: number = getValue(g, 'a'); // 1
-const typeTest2: string = getValue(g, 'b'); // ''
-const typeTest3: boolean = getValue(g, 'c'); // true
-
-const a = { id: 1, name: 's' };
-console.log(getValue(a, 'id')); // 1
-console.log(getValue(a, 'name')); // 's'
-
-// Ошибка! Ключа "key" нет в { id: number, name: string }
-// console.log(getValue(a, 'key'));
-
-// Ошибка! Ключа "age" нет в {}
-// console.log(getValue({}, 'age'));
-
-const b = { email: 'ex' };
-console.log(getValue(b, 'email')); // ex
-
-// Ошибка! Ключа '' нет в { email: string }
-// console.log(getValue(b, ''));
-
-console.log(getValue({ ...a, x: 10 }, 'x')); // 10
-console.log(getValue({ ...a, x: 10 }, 'name')); // 's'
-console.log(getValue({ ...a, x: 10 }, 'id')); // 1
-
-// Ошибка! Ключа "s" нет в объекте
-// console.log(getValue({ ...a, x: 10 }, 's'));
-
-console.log(getValue({ ...b, ...a }, 'email')); // ex
-
-const checkNumber: number = getValue({ age: 1 }, 'age'); // 1
-const checkBoolean: boolean = getValue({ a: true }, 'a'); // true
-const checkNull: null = getValue({ x: null }, 'x'); // null
-
-console.log(getValue({ a: 'str' }, 'a').toUpperCase()); // STR
-console.log(getValue({ a: 10 }, 'a') ** 2); // 100
+// const [a, b] = getValue({ a: 10, b: 20 }, { a: 11, c: 20 }, 'a');
+// console.log(a * 1.1, b - 3); // 11 8
+//
+// const [one, xxx] = getValue({ x: 1 }, { x: 'xxx' }, 'x');
+// console.log(one, xxx); // 1 xxx
+//
+// console.log(one.toUpperCase()); // Ошибка
+// console.log(xxx * 1); // Ошибка
+//
+// getValue({}, {}, ''); // Ошибка
+// getValue({ a: 1, b: 2 }, {}, ''); // Ошибка
+// getValue({ a: 1, b: 2 }, { c: 1, d: 3 }, 'a'); // Ошибка
+// getValue({ a: 1, b: 2 }, { c: 1, d: 3 }, 'c'); // Ошибка
