@@ -1624,9 +1624,9 @@
 // Исправьте код, добавьте функцию getValue, которая на этот раз принимает 2 объекта и ключ, который есть в каждом
 // из объектов, и возвращает значения по этому ключу из первого и второго объекта.
 
-const getValue = <T, U, K extends keyof T & keyof U>(obj1: T, obj2: U, key: K): [T[K], U[K]] => {
-  return [obj1[key], obj2[key]];
-}
+// const getValue = <T, U, K extends keyof T & keyof U>(obj1: T, obj2: U, key: K): [T[K], U[K]] => {
+//   return [obj1[key], obj2[key]];
+// }
 // const [z, x] = getValue({ name: 'z', a: 10 }, { name: 'x', b: true }, 'name');
 // console.log(z.toUpperCase(), x.toLowerCase()); // Z X
 
@@ -1643,3 +1643,47 @@ const getValue = <T, U, K extends keyof T & keyof U>(obj1: T, obj2: U, key: K): 
 // getValue({ a: 1, b: 2 }, {}, ''); // Ошибка
 // getValue({ a: 1, b: 2 }, { c: 1, d: 3 }, 'a'); // Ошибка
 // getValue({ a: 1, b: 2 }, { c: 1, d: 3 }, 'c'); // Ошибка
+
+// Update
+
+// Создайте функцию update, которая принимает первым аргументом объект, который нужно обновить, а вторым аргументом частичный объект этого же типа. И обновляет первый объект с помощью второго.
+// Проверки throw Error можете не смотреть, они добавлены, чтобы вы явно увидели запустился ваш код или нет.
+
+function update<T>(obj: T, updates: Partial<T>): T {
+  return { ...obj, ...updates };
+}
+
+let user = {
+  age: 10,
+  name: 'Original Name',
+};
+
+user = update(user, {}); // Поля не переданы - нечего обновлять
+console.log(user); // { age: 10, name: 'Original Name' }
+if (user.age !== 10 || user.name !== 'Original Name') {
+  throw Error('It is not working');
+}
+//
+user = update(user, { age: 23 }); // Обновить возраст
+console.log(user); // { age: 23, name: 'Original Name' }
+if (user.age !== 23 || user.name !== 'Original Name') {
+  throw Error('It is not working');
+}
+//
+user = update(user, { name: 'Updated Name' }); // Обновить имя
+console.log(user); // { age: 23, name: 'Updated Name' }
+if (user.age !== 23 || user.name !== 'Updated Name') {
+  throw Error('It is not working');
+}
+//
+user = update(user, { age: 100, name: 'name' }); // Обновить имя и возраст
+console.log(user); // { age: 23, name: 'Updated Name' }
+if (user.age !== 100 || user.name !== 'name') {
+  throw Error('It is not working');
+}
+//
+// // Строки ниже должны подчеркивать ошибку! Для запуска можете их закомментировать
+// update(user, { age: 100, name: 'name', a: 10 }); // Здесь должна гореть ошибка! Поля "a" нет в объекте user!
+// update(user, { x: true }); // Здесь должна гореть ошибка! Поля "x" нет в объекте user!
+// update(user, { age: true }); // Здесь должна гореть ошибка! Должен был быть тип number, но передан "boolean"
+// update(user); // Здесь должна гореть ошибка! Второй аргумент обязательно должен быть!
