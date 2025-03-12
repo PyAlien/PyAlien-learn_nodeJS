@@ -1525,49 +1525,97 @@
 //Utility Types
 // На его основе сначала создайте тип First, а затем уже на основе First создайте тип Second. Используйте утилитарные
 // типы Partial, Readonly, Required, Omit и Pick. Попробуйте хотя бы раз использовать и Omit и Pick
-type Person = {
-  name: string;
-  age: number;
-  nickname: string;
-  photo: string;
+// type Person = {
+//   name: string;
+//   age: number;
+//   nickname: string;
+//   photo: string;
+// };
+//
+// // Создаём First:
+// // - Делаем name и age неизменяемыми (Readonly)
+// // - Делаем nickname необязательным (Partial)
+// // - Убираем поле photo (Omit)
+// type First = Readonly<Pick<Person, "name" | "age">> & Partial<Pick<Person, "nickname">>;
+//
+// // Создаём Second:
+// // - Берём всё из First
+// // - Делаем nickname обязательным (Required)
+// // - Добавляем photo обратно (из Omit мы его удаляли, теперь возвращаем)
+// type Second = Required<First> & Pick<Person, "photo">;
+//
+// // Проверка:
+// const person1: First = {
+//   name: "Alice",
+//   age: 30,
+// };
+//
+// // Ошибка! Нельзя изменять name и age, так как они Readonly
+// // person1.name = "Bob";
+// // person1.age = 35;
+// // person1.nickname = "Al"; // Можно, так как nickname необязательный
+//
+// const person2: Second = {
+//   name: "Bob",
+//   age: 25,
+//   nickname: "Bobby",
+//   photo: "photo.jpg",
+// };
+//
+// // Ошибка! nickname обязателен в Second
+// // const person3: Second = {
+// //   name: "Charlie",
+// //   age: 28,
+// //   photo: "photo.png",
+// // }
+//
+// console.log(person1);
+// console.log(person2);
+
+// keyof
+// Доработайте код, чтобы он работал как ожидается - чтобы функция getValue принимала первым аргументов объект, а вторым аргументом название ключа, который есть конкретно у этого объекта, и возвращала значение этого ключа в этом объекте. Не забудьте про дженерики.
+
+const getValue = <T, K extends keyof T>(obj: T, key: K): T[K] => {
+  return obj[key];
+}
+
+const g = {
+  a: 1,
+  b: '',
+  c: true
 };
+const typeTest1: number = getValue(g, 'a'); // 1
+const typeTest2: string = getValue(g, 'b'); // ''
+const typeTest3: boolean = getValue(g, 'c'); // true
 
-// Создаём First:
-// - Делаем name и age неизменяемыми (Readonly)
-// - Делаем nickname необязательным (Partial)
-// - Убираем поле photo (Omit)
-type First = Readonly<Pick<Person, "name" | "age">> & Partial<Pick<Person, "nickname">>;
+const a = { id: 1, name: 's' };
+console.log(getValue(a, 'id')); // 1
+console.log(getValue(a, 'name')); // 's'
 
-// Создаём Second:
-// - Берём всё из First
-// - Делаем nickname обязательным (Required)
-// - Добавляем photo обратно (из Omit мы его удаляли, теперь возвращаем)
-type Second = Required<First> & Pick<Person, "photo">;
+// Ошибка! Ключа "key" нет в { id: number, name: string }
+// console.log(getValue(a, 'key'));
 
-// Проверка:
-const person1: First = {
-  name: "Alice",
-  age: 30,
-};
+// Ошибка! Ключа "age" нет в {}
+// console.log(getValue({}, 'age'));
 
-// Ошибка! Нельзя изменять name и age, так как они Readonly
-// person1.name = "Bob";
-// person1.age = 35;
-// person1.nickname = "Al"; // Можно, так как nickname необязательный
+const b = { email: 'ex' };
+console.log(getValue(b, 'email')); // ex
 
-const person2: Second = {
-  name: "Bob",
-  age: 25,
-  nickname: "Bobby",
-  photo: "photo.jpg",
-};
+// Ошибка! Ключа '' нет в { email: string }
+// console.log(getValue(b, ''));
 
-// Ошибка! nickname обязателен в Second
-// const person3: Second = {
-//   name: "Charlie",
-//   age: 28,
-//   photo: "photo.png",
-// }
+console.log(getValue({ ...a, x: 10 }, 'x')); // 10
+console.log(getValue({ ...a, x: 10 }, 'name')); // 's'
+console.log(getValue({ ...a, x: 10 }, 'id')); // 1
 
-console.log(person1);
-console.log(person2);
+// Ошибка! Ключа "s" нет в объекте
+// console.log(getValue({ ...a, x: 10 }, 's'));
+
+console.log(getValue({ ...b, ...a }, 'email')); // ex
+
+const checkNumber: number = getValue({ age: 1 }, 'age'); // 1
+const checkBoolean: boolean = getValue({ a: true }, 'a'); // true
+const checkNull: null = getValue({ x: null }, 'x'); // null
+
+console.log(getValue({ a: 'str' }, 'a').toUpperCase()); // STR
+console.log(getValue({ a: 10 }, 'a') ** 2); // 100
